@@ -2,10 +2,7 @@ import { AppBar, Box, Button, Card, CardContent, CardHeader, Divider, FormContro
 import { useState } from "react";
 import { lumpsumFormConfig, royaltyFormConfig } from '../config'
 
-const calculatePercentage = (a, b) => {
-  console.log('ab', a,b, (a / 100) * b)
-  return (a / 100) * b;
-}
+const calculatePercentage = (a, b) => (a / 100) * b;
 
 export default function Docs() {
   const [lumpSumFormData, setLumpSumFormData] = useState({ lumpsumPercentageDev: 70, lumpsumPercentage: 30, gstPercentageDev: 70, gstPercentage: 30, gstRate: 12 })
@@ -77,7 +74,7 @@ export default function Docs() {
         </Typography>
       </AppBar>
       <Grid container spacing={2}>
-        <Grid item xs={6}>
+        <Grid item xs={7}>
           <Card variant="outlined" sx={{ minHeight: '440px' }}>
             <CardHeader title={`Calculate R&D Share of Lumpsum Premium`} />
             <CardContent>
@@ -86,9 +83,10 @@ export default function Docs() {
                 setFormSubmitted((prevState) => ({ ...prevState, lumpsum: true }))
                 calculateResult(lumpsumFormConfig, lumpSumFormData, 'lumpsumResult')
               }}>
-                <FormControl sx={{ m: 1, width: '780px' }}>
-                  <InputLabel htmlFor="developer">{`R&D Institution`}</InputLabel>
+                <FormControl sx={{ m: 1, width: '870px' }}>
+                  <InputLabel htmlFor="developer" sx={{fontSize: 18, fontWeight: 600, color: '#000'}}>{`R&D Institution`}</InputLabel>
                   <OutlinedInput
+                    sx={{fontSize: 19}}
                     id="developer"
                     name="developer"
                     label={`R&D Institution`}
@@ -98,9 +96,10 @@ export default function Docs() {
                   <ErrorMessage id="developer" validate={validateLumpSumForm} />
                 </FormControl>
                 <div>
-                  <FormControl sx={{ m: 1, width: '250px' }}>
-                    <InputLabel htmlFor="lumpsum">Lum Sum Amount</InputLabel>
+                  <FormControl sx={{ m: 1, width: '280px' }}>
+                    <InputLabel htmlFor="lumpsum" sx={{fontSize: 18, fontWeight: 600, color: '#000'}}>Lum Sum Amount</InputLabel>
                     <OutlinedInput
+                      sx={{fontSize: 19}}
                       id="lumpsum"
                       name="lumpsum"
                       label='Lum Sum Amount'
@@ -118,9 +117,10 @@ export default function Docs() {
 
                     <ErrorMessage id="lumpsum" validate={validateLumpSumForm} />
                   </FormControl>
-                  <FormControl sx={{ m: 1, width: '250px' }}>
-                    <InputLabel htmlFor="lumpsumPercentageDev">{`Lump Sum Percentage(R&D Institution)`}</InputLabel>
+                  <FormControl sx={{ m: 1, width: '280px' }}>
+                    <InputLabel htmlFor="lumpsumPercentageDev" sx={{fontSize: 18, fontWeight: 600, color: '#000'}}>{`Lump Sum Percentage(R&D Institution)`}</InputLabel>
                     <OutlinedInput
+                      sx={{fontSize: 19}}
                       id="lumpsumPercentageDev"
                       name="lumpsumPercentageDev"
                       label={`Lump Sum Percentage(R&D Institution)`}
@@ -132,9 +132,10 @@ export default function Docs() {
                     />
                     <ErrorMessage id="lumpsumPercentageDev" validate={validateLumpSumForm} />
                   </FormControl>
-                  <FormControl sx={{ m: 1, width: '250px' }}>
-                    <InputLabel htmlFor="lumpsumPercentage">Lum Sum Percentage(NRDC)</InputLabel>
+                  <FormControl sx={{ m: 1, width: '280px' }}>
+                    <InputLabel htmlFor="lumpsumPercentage" sx={{fontSize: 18, fontWeight: 600, color: '#000'}}>Lum Sum Percentage(NRDC)</InputLabel>
                     <OutlinedInput
+                      sx={{fontSize: 19}}
                       id="lumpsumPercentage"
                       label="Lum Sum Percentage(NRDC)"
                       defaultValue={'30'}
@@ -147,9 +148,10 @@ export default function Docs() {
                   </FormControl>
                 </div>
                 <div>
-                  <FormControl sx={{ m: 1, width: '250px' }}>
-                    <InputLabel htmlFor="gstAmount">GST Amount</InputLabel>
+                  <FormControl sx={{ m: 1, width: '280px' }}>
+                    <InputLabel htmlFor="gstAmount" sx={{fontSize: 18, fontWeight: 600, color: '#000'}}>GST Amount</InputLabel>
                     <OutlinedInput
+                      sx={{fontSize: 19}}
                       id="gstAmount"
                       name="gstAmount"
                       label="GST Amount"
@@ -160,9 +162,10 @@ export default function Docs() {
                     />
                     <ErrorMessage id="gstAmount" validate={validateLumpSumForm} />
                   </FormControl>
-                  <FormControl sx={{ m: 1, width: '250px' }}>
-                    <InputLabel htmlFor="gstPercentage">{`GST Percentage(R&D Institution)`}</InputLabel>
+                  <FormControl sx={{ m: 1, width: '280px' }}>
+                    <InputLabel htmlFor="gstPercentage" sx={{fontSize: 18, fontWeight: 600, color: '#000'}}>{`GST Percentage(R&D Institution)`}</InputLabel>
                     <OutlinedInput
+                      sx={{fontSize: 19}}
                       id="gstPercentageDev"
                       defaultValue={70}
                       endAdornment={<InputAdornment position="end">%</InputAdornment>}
@@ -172,9 +175,10 @@ export default function Docs() {
                     />
                     <ErrorMessage id="gstPercentageDev" validate={validateLumpSumForm} />
                   </FormControl>
-                  <FormControl sx={{ m: 1, width: '250px' }}>
-                    <InputLabel htmlFor="gstPercentage">GST Percentage(NRDC)</InputLabel>
+                  <FormControl sx={{ m: 1, width: '280px' }}>
+                    <InputLabel htmlFor="gstPercentage" sx={{fontSize: 18, fontWeight: 600, color: '#000'}}>GST Percentage(NRDC)</InputLabel>
                     <OutlinedInput
+                      sx={{fontSize: 19}}
                       id="gstPercentage"
                       defaultValue={30}
                       endAdornment={<InputAdornment position="end">%</InputAdornment>}
@@ -185,9 +189,10 @@ export default function Docs() {
                     />
                     <ErrorMessage id="gstPercentage" validate={validateLumpSumForm} />
                   </FormControl>
-                  <FormControl sx={{ m: 1, width: '250px' }}>
-                    <InputLabel htmlFor="gstRate">Current GST Rate</InputLabel>
+                  <FormControl sx={{ m: 1, width: '280px' }}>
+                    <InputLabel htmlFor="gstRate" sx={{fontSize: 18, fontWeight: 600, color: '#000'}}>Current GST Rate</InputLabel>
                     <OutlinedInput
+                      sx={{fontSize: 19}}
                       id="gstRate"
                       defaultValue={12}
                       endAdornment={<InputAdornment position="end">%</InputAdornment>}
@@ -199,7 +204,7 @@ export default function Docs() {
                     <ErrorMessage id="gstRate" validate={validateLumpSumForm} />
                   </FormControl>
                 </div>
-                <Button variant='contained' type="submit" style={{ marginLeft: '10px', marginTop: '10px' }}>
+                <Button variant='contained' type="submit" style={{ marginLeft: '10px', marginTop: '10px', fontWeight: 600 }}>
                   Calculate
                 </Button>
               </form>
@@ -210,7 +215,7 @@ export default function Docs() {
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                   {lumpsumFormConfig.map((item, index) => (
                     <Grid item xs={2} sm={4} md={6} key={index}>
-                      <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                      <Typography sx={{ fontSize: 14, fontWeight: 600 }} color="text.secondary" gutterBottom>
                         {item.fieldTitle}
                       </Typography><Typography variant="h5" component="div">
                         &#x20B9;{item.result}
@@ -222,7 +227,7 @@ export default function Docs() {
               </CardContent></Box> : null}
           </Card>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={5}>
           <Card variant="outlined" sx={{ minHeight: '440px' }}>
             <CardHeader title={`Calculate R&D Share of Recurring Royalty`} />
             <CardContent>
@@ -232,8 +237,9 @@ export default function Docs() {
                 calculateResult(royaltyFormConfig, royaltyFormData, 'royaltyResult')
               }}>
                 <FormControl sx={{ m: 1, width: '280px' }}>
-                  <InputLabel htmlFor="sale">Sale Amount</InputLabel>
+                  <InputLabel htmlFor="sale" sx={{fontSize: 18, fontWeight: 600, color: '#000'}}>Sale Amount</InputLabel>
                   <OutlinedInput
+                    sx={{fontSize: 19}}
                     id="sale"
                     name="sale"
                     label="Sale Amount"
@@ -249,8 +255,9 @@ export default function Docs() {
                 </FormControl>
                 <div>
                   <FormControl sx={{ m: 1, width: '280px' }}>
-                    <InputLabel htmlFor="royaltyPercentageDev">{`Royalty Percentage(R&D Institution)`}</InputLabel>
+                    <InputLabel htmlFor="royaltyPercentageDev" sx={{fontSize: 18, fontWeight: 600, color: '#000'}}>{`Royalty Percentage(R&D Institution)`}</InputLabel>
                     <OutlinedInput
+                      sx={{fontSize: 19}}
                       id="royaltyPercentageDev"
                       name="royaltyPercentageDev"
                       label={`Royalty Percentage(R&D Institution)`}
@@ -263,8 +270,9 @@ export default function Docs() {
                     <ErrorMessage id="royaltyPercentageDev" validate={validateRoyaltyForm} />
                   </FormControl>
                   <FormControl sx={{ m: 1, width: '280px' }}>
-                    <InputLabel htmlFor="royaltyPercentage">Royalty Percentage(NRDC)</InputLabel>
+                    <InputLabel htmlFor="royaltyPercentage" sx={{fontSize: 18, fontWeight: 600, color: '#000'}}>Royalty Percentage(NRDC)</InputLabel>
                     <OutlinedInput
+                      sx={{fontSize: 19}}
                       id="royaltyPercentage"
                       name="royaltyPercentage"
                       label="Royalty Percentage(NRDC)"
@@ -276,7 +284,7 @@ export default function Docs() {
                     <ErrorMessage id="royaltyPercentage" validate={validateRoyaltyForm} />
                   </FormControl>
                 </div>
-                <Button variant='contained' type="submit" style={{ marginLeft: '10px', marginTop: '155px' }}>
+                <Button variant='contained' type="submit" style={{ marginLeft: '10px', marginTop: '155px', fontWeight: 600 }}>
                   Calculate
                 </Button>
               </form>
@@ -287,7 +295,7 @@ export default function Docs() {
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                   {royaltyFormConfig.map((item, index) => (
                     <Grid item xs={2} sm={4} md={6} key={index}>
-                      <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                      <Typography sx={{ fontSize: 14, fontWeight: 600 }} color="text.secondary" gutterBottom>
                         {item.fieldTitle}
                       </Typography><Typography variant="h5" component="div">
                         &#x20B9;{item.result}
