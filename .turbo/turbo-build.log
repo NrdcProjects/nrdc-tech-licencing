@@ -1,0 +1,25 @@
+[33mdocs:build[0m: cache hit, replaying output [2md331abbc34e468ce[0m
+[33mdocs:build: [0m
+[33mdocs:build: [0m> docs@0.0.0 build
+[33mdocs:build: [0m> next build
+[33mdocs:build: [0m
+[33mdocs:build: [0minfo  - Skipping linting
+[33mdocs:build: [0minfo  - Checking validity of types...
+[33mdocs:build: [0minfo  - Creating an optimized production build...
+[33mdocs:build: [0minfo  - Compiled successfully
+[33mdocs:build: [0minfo  - Collecting page data...
+[33mdocs:build: [0minfo  - Generating static pages (0/3)
+[33mdocs:build: [0minfo  - Generating static pages (3/3)
+[33mdocs:build: [0minfo  - Finalizing page optimization...
+[33mdocs:build: [0m
+[33mdocs:build: [0mRoute (pages)                              Size     First Load JS
+[33mdocs:build: [0m┌ ○ / (509 ms)                             41.1 kB         119 kB
+[33mdocs:build: [0m└ ○ /404                                   193 B          77.8 kB
+[33mdocs:build: [0m+ First Load JS shared by all              77.6 kB
+[33mdocs:build: [0m  ├ chunks/framework-c02f198d58d34563.js   45.3 kB
+[33mdocs:build: [0m  ├ chunks/main-7f2979d6bbe009ef.js        31.1 kB
+[33mdocs:build: [0m  ├ chunks/pages/_app-b379d6eea5535aee.js  202 B
+[33mdocs:build: [0m  └ chunks/webpack-fd1bc4a65a80e5c8.js     968 B
+[33mdocs:build: [0m
+[33mdocs:build: [0m○  (Static)  automatically rendered as static HTML (uses no initial props)
+[33mdocs:build: [0m
