@@ -14,11 +14,15 @@ export default function Docs() {
   const onLumpsumFieldValueChange = (e) => {
     const value = !isNaN(e.target.value) ? e.target.value : false
     setLumpSumFormData((prevState) => ({ ...prevState, [e.target.name]: value ? value : prevState[e.target.name] }))
+    resetConfig(lumpsumFormConfig,'lumpsumResult')
   }
 
-  const onRoyaltyFieldValueChange = (e) => {
-    const value = !isNaN(e.target.value) ? e.target.value : ''
-    setRoyaltyFormData((prevState) => ({ ...prevState, [e.target.name]: value ? value : prevState[e.target.name] }))
+  const resetConfig = (config, showResultKey) => {
+    config.forEach((item) => {
+       item.result = ''
+      }
+    )
+    setShowResult((prevState) => ({ ...prevState, [showResultKey]: false }))
   }
 
   const calculateResult = (config, data, showResultKey) => {
@@ -91,8 +95,12 @@ export default function Docs() {
                     id="developer"
                     name="developer"
                     label={`R&D Institution`}
+                    value={lumpSumFormData.developer}
                     error={validateLumpSumForm("developer")}
-                    onChange={onLumpsumFieldValueChange}
+                    onChange={(e) => {
+                      setLumpSumFormData((prevState) => ({ ...prevState, [e.target.name]: e.target.value})) 
+                      resetConfig(lumpsumFormConfig, 'lumpsumResult')
+                    }}
                   />
                   <ErrorMessage id="developer" validate={validateLumpSumForm} />
                 </FormControl>
@@ -115,6 +123,7 @@ export default function Docs() {
                           gstAmount1: calculatePercentage(Number.parseInt(lumpSumFormData.gstRate), val),
                           gstAmount: currencyFomatting(calculatePercentage(Number.parseInt(lumpSumFormData.gstRate), val))
                         }))
+                        resetConfig(lumpsumFormConfig,'lumpsumResult')
                       }} />
 
                     <ErrorMessage id="lumpsum" validate={validateLumpSumForm} />
@@ -137,6 +146,7 @@ export default function Docs() {
                           ...prevState, lumpsumPercentageDev: val,
                           lumpsumPercentage: getPercent(val)
                         }))
+                        resetConfig(lumpsumFormConfig,'lumpsumResult')
                       }}
                     />
                     <ErrorMessage id="lumpsumPercentageDev" validate={validateLumpSumForm} />
@@ -159,6 +169,7 @@ export default function Docs() {
                           ...prevState, lumpsumPercentage: val,
                           lumpsumPercentageDev: getPercent(val)
                         }))
+                        resetConfig(lumpsumFormConfig,'lumpsumResult')
                       }}
                     />
                     <ErrorMessage id="lumpsumPercentage" validate={validateLumpSumForm} />
@@ -196,6 +207,7 @@ export default function Docs() {
                           ...prevState, gstPercentageDev: val,
                           gstPercentage: getPercent(val)
                         }))
+                        resetConfig(lumpsumFormConfig,'lumpsumResult')
                       }}
                     />
                     <ErrorMessage id="gstPercentageDev" validate={validateLumpSumForm} />
@@ -218,6 +230,7 @@ export default function Docs() {
                           ...prevState, gstPercentage: val,
                           gstPercentageDev: getPercent(val)
                         }))
+                        resetConfig(lumpsumFormConfig,'lumpsumResult')
                       }}
                     />
                     <ErrorMessage id="gstPercentage" validate={validateLumpSumForm} />
@@ -241,6 +254,7 @@ export default function Docs() {
                             gstAmount1: calculatePercentage(Number.parseInt(val), prevState.lumpsum1),
                             gstAmount: currencyFomatting(calculatePercentage(Number.parseInt(val), prevState.lumpsum1))
                           }))
+                          resetConfig(lumpsumFormConfig,'lumpsumResult')
                       }}
                     />
                     <ErrorMessage id="gstRate" validate={validateLumpSumForm} />
@@ -291,6 +305,7 @@ export default function Docs() {
                     onChange={(e) => {
                       const val = e.target.value.toString().replace(/,/g, '')
                       setRoyaltyFormData((prevState) => ({ ...prevState, [e.target.name]: e.target.value, sale1: val }))
+                      resetConfig(royaltyFormConfig,'royaltyResult')
                     }}
                   />
                   <ErrorMessage id="sale" validate={validateRoyaltyForm} />
@@ -314,6 +329,7 @@ export default function Docs() {
                           ...prevState, royaltyPercentageDev: val,
                           royaltyPercentage: getPercent(val)
                         }))
+                        resetConfig(royaltyFormConfig,'royaltyResult')
                       }}
                     />
                     <ErrorMessage id="royaltyPercentageDev" validate={validateRoyaltyForm} />
@@ -335,6 +351,7 @@ export default function Docs() {
                           ...prevState, royaltyPercentage: val,
                           royaltyPercentageDev: getPercent(val)
                         }))
+                        resetConfig(royaltyFormConfig,'royaltyResult')
                       }}
                     />
                     <ErrorMessage id="royaltyPercentage" validate={validateRoyaltyForm} />
