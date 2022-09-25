@@ -3,6 +3,7 @@ import { useState } from "react";
 import { lumpsumFormConfig, royaltyFormConfig } from '../config'
 
 const calculatePercentage = (a, b) => (a / 100) * b;
+const getPercent = (val) => NaN !== 100 - Number.parseInt(val) ? 100 - Number.parseInt(val) : ''
 
 export default function Docs() {
   const [lumpSumFormData, setLumpSumFormData] = useState({ lumpsumPercentageDev: 70, lumpsumPercentage: 30, gstPercentageDev: 70, gstPercentage: 30, gstRate: 12 })
@@ -11,13 +12,13 @@ export default function Docs() {
   const [formSubmitted, setFormSubmitted] = useState({ lumpsum: false, royalty: false })
 
   const onLumpsumFieldValueChange = (e) => {
-    const value = e.target.value
-    setLumpSumFormData((prevState) => ({ ...prevState, [e.target.name]: value }))
+    const value = !isNaN(e.target.value) ? e.target.value : false
+    setLumpSumFormData((prevState) => ({ ...prevState, [e.target.name]: value ? value : prevState[e.target.name] }))
   }
 
   const onRoyaltyFieldValueChange = (e) => {
-    const value = e.target.value
-    setRoyaltyFormData((prevState) => ({ ...prevState, [e.target.name]: value }))
+    const value = !isNaN(e.target.value) ? e.target.value : ''
+    setRoyaltyFormData((prevState) => ({ ...prevState, [e.target.name]: value ? value : prevState[e.target.name] }))
   }
 
   const calculateResult = (config, data, showResultKey) => {
@@ -26,7 +27,7 @@ export default function Docs() {
       if (!!!data[item.sourceField]) {
         show = false
       } else {
-        const value = calculatePercentage(data[item.percentageField], data[item.sourceField])
+        const value = calculatePercentage(Number.parseInt(data[item.percentageField]), data[item.sourceField])
         item.result = currencyFomatting(value)
       }
     })
@@ -49,7 +50,7 @@ export default function Docs() {
   }
 
   const currencyFomatting = (value) => {
-    const __amount = value?.toString().replace(/,/g, '')
+    const __amount = value?.toString().replace(/,/g, '').replace(/[a-z]/g, '').replace(/[;?,'`=-\\\/]/g,'')
     return value ? new Intl.NumberFormat("en-IN").format(__amount): '';
   }
 
@@ -75,7 +76,7 @@ export default function Docs() {
       </AppBar>
       <Grid container spacing={2}>
         <Grid item xs={7}>
-          <Card variant="outlined" sx={{ minHeight: '440px' }}>
+          <Card variant="outlined" sx={{ minHeight: '456px' }}>
             <CardHeader title={`Calculate R&D Share of Lumpsum Premium`} />
             <CardContent>
               <form onSubmit={(e) => {
@@ -107,11 +108,12 @@ export default function Docs() {
                       error={validateLumpSumForm("lumpsum")}
                       value={currencyFomatting(lumpSumFormData?.lumpsum)}
                       onChange={(e) => {
-                        const val = e.target.value.toString().replace(/,/g, '')
+                        const _val = e.target.value.toString().replace(/,/g, '')
+                        const val = !isNaN(_val) ? _val : lumpSumFormData.lumpsum1
                         setLumpSumFormData((prevState) => ({
                           ...prevState, lumpsum1: val, lumpsum: e.target.value,
-                          gstAmount1: calculatePercentage(lumpSumFormData.gstRate, val),
-                          gstAmount: currencyFomatting(calculatePercentage(lumpSumFormData.gstRate, val))
+                          gstAmount1: calculatePercentage(Number.parseInt(lumpSumFormData.gstRate), val),
+                          gstAmount: currencyFomatting(calculatePercentage(Number.parseInt(lumpSumFormData.gstRate), val))
                         }))
                       }} />
 
@@ -124,11 +126,18 @@ export default function Docs() {
                       id="lumpsumPercentageDev"
                       name="lumpsumPercentageDev"
                       label={`Lump Sum Percentage(R&D Institution)`}
-                      defaultValue={'70'}
+                      defaultValue={70}
+                      value={lumpSumFormData.lumpsumPercentageDev}
                       endAdornment={'%'}
                       type="number"
                       error={validateLumpSumForm("lumpsumPercentageDev")}
-                      onChange={onLumpsumFieldValueChange}
+                      onChange={(e) => {
+                        const val = e.target.value
+                        setLumpSumFormData((prevState) => ({
+                          ...prevState, lumpsumPercentageDev: val,
+                          lumpsumPercentage: getPercent(val)
+                        }))
+                      }}
                     />
                     <ErrorMessage id="lumpsumPercentageDev" validate={validateLumpSumForm} />
                   </FormControl>
@@ -137,12 +146,20 @@ export default function Docs() {
                     <OutlinedInput
                       sx={{fontSize: 19}}
                       id="lumpsumPercentage"
+                      name="lumpsumPercentage"
                       label="Lum Sum Percentage(NRDC)"
-                      defaultValue={'30'}
+                      defaultValue={30}
+                      value={lumpSumFormData.lumpsumPercentage}
                       endAdornment={'%'}
                       type="number"
                       error={validateLumpSumForm("lumpsumPercentage")}
-                      onChange={onLumpsumFieldValueChange}
+                      onChange={(e) => {
+                        const val = e.target.value
+                        setLumpSumFormData((prevState) => ({
+                          ...prevState, lumpsumPercentage: val,
+                          lumpsumPercentageDev: getPercent(val)
+                        }))
+                      }}
                     />
                     <ErrorMessage id="lumpsumPercentage" validate={validateLumpSumForm} />
                   </FormControl>
@@ -167,11 +184,19 @@ export default function Docs() {
                     <OutlinedInput
                       sx={{fontSize: 19}}
                       id="gstPercentageDev"
+                      name="gstPercentageDev"
                       defaultValue={70}
+                      value={lumpSumFormData.gstPercentageDev}
                       endAdornment={<InputAdornment position="end">%</InputAdornment>}
                       label={`GST Percentage(R&D Institution)`}
                       error={validateLumpSumForm("gstPercentageDev")}
-                      onChange={onLumpsumFieldValueChange}
+                      onChange={(e) => {
+                        const val = e.target.value
+                        setLumpSumFormData((prevState) => ({
+                          ...prevState, gstPercentageDev: val,
+                          gstPercentage: getPercent(val)
+                        }))
+                      }}
                     />
                     <ErrorMessage id="gstPercentageDev" validate={validateLumpSumForm} />
                   </FormControl>
@@ -180,12 +205,20 @@ export default function Docs() {
                     <OutlinedInput
                       sx={{fontSize: 19}}
                       id="gstPercentage"
+                      name="gstPercentage"
                       defaultValue={30}
+                      value={lumpSumFormData.gstPercentage}
                       endAdornment={<InputAdornment position="end">%</InputAdornment>}
                       label="GST Percentage(NRDC)"
                       type="number"
                       error={validateLumpSumForm("gstPercentage")}
-                      onChange={onLumpsumFieldValueChange}
+                      onChange={(e) => {
+                        const val = e.target.value
+                        setLumpSumFormData((prevState) => ({
+                          ...prevState, gstPercentage: val,
+                          gstPercentageDev: getPercent(val)
+                        }))
+                      }}
                     />
                     <ErrorMessage id="gstPercentage" validate={validateLumpSumForm} />
                   </FormControl>
@@ -194,12 +227,21 @@ export default function Docs() {
                     <OutlinedInput
                       sx={{fontSize: 19}}
                       id="gstRate"
+                      name="gstRate"
                       defaultValue={12}
                       endAdornment={<InputAdornment position="end">%</InputAdornment>}
                       label="Current GST Rate"
                       type="number"
                       error={validateLumpSumForm("gstRate")}
-                      onChange={onLumpsumFieldValueChange}
+                      onChange={(e) => {
+                          const _val = e.target.value
+                          const val = !isNaN(_val) ? _val : lumpSumFormData.gstRate1
+                          setLumpSumFormData((prevState) => ({
+                            ...prevState, gstRate: val,
+                            gstAmount1: calculatePercentage(Number.parseInt(val), prevState.lumpsum1),
+                            gstAmount: currencyFomatting(calculatePercentage(Number.parseInt(val), prevState.lumpsum1))
+                          }))
+                      }}
                     />
                     <ErrorMessage id="gstRate" validate={validateLumpSumForm} />
                   </FormControl>
@@ -228,7 +270,7 @@ export default function Docs() {
           </Card>
         </Grid>
         <Grid item xs={5}>
-          <Card variant="outlined" sx={{ minHeight: '440px' }}>
+          <Card variant="outlined" sx={{ minHeight: '456px' }}>
             <CardHeader title={`Calculate R&D Share of Recurring Royalty`} />
             <CardContent>
               <form onSubmit={(e) => {
@@ -261,11 +303,18 @@ export default function Docs() {
                       id="royaltyPercentageDev"
                       name="royaltyPercentageDev"
                       label={`Royalty Percentage(R&D Institution)`}
-                      defaultValue={'95'}
+                      defaultValue={95}
+                      value={royaltyFormData.royaltyPercentageDev}
                       endAdornment={'%'}
                       type="number"
                       error={validateRoyaltyForm("royaltyPercentageDev")}
-                      onChange={onRoyaltyFieldValueChange}
+                      onChange={(e) => {
+                        const val = e.target.value
+                        setRoyaltyFormData((prevState) => ({
+                          ...prevState, royaltyPercentageDev: val,
+                          royaltyPercentage: getPercent(val)
+                        }))
+                      }}
                     />
                     <ErrorMessage id="royaltyPercentageDev" validate={validateRoyaltyForm} />
                   </FormControl>
@@ -276,10 +325,17 @@ export default function Docs() {
                       id="royaltyPercentage"
                       name="royaltyPercentage"
                       label="Royalty Percentage(NRDC)"
-                      defaultValue={'5'}
+                      defaultValue={5}
+                      value={royaltyFormData.royaltyPercentage}
                       endAdornment={'%'}
                       error={validateRoyaltyForm("royaltyPercentage")}
-                      onChange={onRoyaltyFieldValueChange}
+                      onChange={(e) => {
+                        const val = e.target.value
+                        setRoyaltyFormData((prevState) => ({
+                          ...prevState, royaltyPercentage: val,
+                          royaltyPercentageDev: getPercent(val)
+                        }))
+                      }}
                     />
                     <ErrorMessage id="royaltyPercentage" validate={validateRoyaltyForm} />
                   </FormControl>
