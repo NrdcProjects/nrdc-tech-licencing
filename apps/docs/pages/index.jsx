@@ -1,6 +1,5 @@
 import { AppBar, Box, Button, Card, CardContent, CardHeader, Divider, FormControl, FormHelperText, Grid, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
 import { useState } from "react";
-import NumberFormat from "react-number-format";
 import { lumpsumFormConfig, royaltyFormConfig } from '../config'
 
 const calculatePercentage = (a, b) => {
